@@ -1,5 +1,6 @@
 from distutils.command.upload import upload
 from statistics import mode
+from xml.parsers.expat import model
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -21,3 +22,11 @@ class Friend(models.Model):
     def __str__(self) -> str:
         return self.profile.name
 
+class chat_mes(models.Model):
+      message = models.TextField()
+      msg_sender = models.ForeignKey(Profile, on_delete= models.CASCADE, related_name="msg_sender")
+      msg_reciever = models.ForeignKey(Profile, on_delete= models.CASCADE, related_name="msg_reciever")
+      seen = models.BooleanField(default=False)
+
+      def  __str__(self) -> str:
+        return self.message

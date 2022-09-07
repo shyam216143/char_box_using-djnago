@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='friend',
             name='profile',
-            field=models.OneToOneField(default=0, on_delete=django.db.models.deletion.CASCADE, to='chatapp.profile'),
+            field=models.OneToOneField( on_delete=django.db.models.deletion.CASCADE, to='chatapp.profile'),
             preserve_default=False,
         ),
         migrations.AddField(

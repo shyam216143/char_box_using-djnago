@@ -130,6 +130,12 @@
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
+                let chat_body = document.getElementById('chat-body')
+                let chatBox = document.createElement('div')
+                chatBox.classList.add("chat-box-sent")
+                chatBox.innerText=data
+                chat_body.append(chatBox)
+                document.getElementById('id_message').value=""
             })
             .catch((error) => {
                 console.error('Error:', error);

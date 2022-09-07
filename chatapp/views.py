@@ -50,4 +50,4 @@ def sendMessage(request,pk):
     newchat=data["message1"]
     newchat_mesage = chat_mes.objects.create(message=newchat, msg_sender=user, msg_reciever=profile, seen=False)
     print(newchat)
-    return JsonResponse(newchat_mesage, safe=False)
+    return JsonResponse(newchat_mesage.message, safe=False)

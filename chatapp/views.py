@@ -21,7 +21,9 @@ def details(request, pk):
     user_id = request.user.profile
     reciever_id = Profile.objects.get(id = friend.profile.id)
     chats = chat_mes.objects.all()
-    print(chats[0])
+    recieved_chats = chat_mes.objects.filter(msg_sender=reciever_id, msg_reciever=user_id, seen=False)
+    recieved_chats.update(seen = True)
+
 
 
     if request.method == 'POST':
@@ -32,7 +34,7 @@ def details(request, pk):
             chat_mesage.msg_reciever = reciever_id
             chat_mesage.save()
             return redirect("detail", pk=friend.profile.id)
-    context = {"friends":friend,"form":form,"user":user_id,"reciever":reciever_id, "chats":chats}
+    context = {"friends":friend,"form":form,"user":user_id,"reciever":reciever_id, "chats":chats,"number1":recieved_chats.count()}
     return render(request,"mychatapp/details.html", context)
 
 
@@ -45,9 +47,33 @@ def base(request):
 def sendMessage(request,pk):
     user = request.user.profile
     friend = Friend.objects.get(profile_id=pk)
-    profile = Profile.objects.get(id= friend.profile.id)
+    profile = Profile.objects.get(id = friend.profile.id)
     data = json.loads(request.body)
     newchat=data["message1"]
     newchat_mesage = chat_mes.objects.create(message=newchat, msg_sender=user, msg_reciever=profile, seen=False)
     print(newchat)
     return JsonResponse(newchat_mesage.message, safe=False)
+
+
+
+def recieveMessage(request, pk):
+    user = request.user.profile
+    friend = Friend.objects.get(profile_id=pk)
+    profile = Profile.objects.get(id= friend.profile.id)
+    arr =[]
+    chats = chat_mes.objects.filter(msg_sender=profile, msg_reciever=user)
+    for x in chats:
+        arr.append(x.message)
+    return JsonResponse(arr, safe=False)
+
+def chatNotification(request):
+    user = request.user.profile
+    friends = user.friends.all()
+    array1 = []
+    for i in friends:
+      chat  = chat_mes.objects.filter(msg_sender__id = i.profile.id, msg_reciever = user, seen =False )
+      array1.append(chat.count())
+
+    print(array1)
+
+    return JsonResponse(array1, safe=False)

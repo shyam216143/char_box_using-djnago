@@ -114,7 +114,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body msg_card_body">
+                        <div class="card-body msg_card_body" id="helloworld">
                             <!------- messages ------->
                             {% for chat in i.message1.all %}
                                 {% if chat.user == user %}
@@ -156,7 +156,7 @@
                                 <input type="text" name="" id="input-message" class="form-control type_msg"
                                     placeholder="Type your message...">
                                 <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="submit">
+                                    <button class="btn btn-secondary" id="btn_one"  type="submit">
                                         <span class="input-group-text send_btn">
                                             <i class="fas fa-location-arrow"></i>
                                         </span>

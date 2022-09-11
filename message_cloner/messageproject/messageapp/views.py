@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 
 def home(request):
-    threads = ThreadingTable.objects.by_user(user=request.user).prefetch_related('message1').order_by('timestamp')
+    threads = ThreadingTable.objects.by_user(user=request.user).prefetch_related('message1').order_by('timestamp') 
     context={
         'threads':threads,
     }

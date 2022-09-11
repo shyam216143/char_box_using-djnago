@@ -22,9 +22,11 @@ class ThreadingTable(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     objects =   ThreadManager()
-
     class Meta:
         unique_together =['first_person', 'second_person']
+
+
+        
 
 
 

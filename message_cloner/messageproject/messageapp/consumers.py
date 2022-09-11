@@ -28,9 +28,11 @@ class ChatConsumer(AsyncConsumer):
     async def websocket_receive(self, event):
         print('receive', event)
         print("123")
+        print("type of event", type(event['text']))
         recieved_data = json.loads(event['text'])
-        print(recieved_data)
+        print("type of recievec data",type(recieved_data))
         msg = recieved_data.get('message')
+        print("message",msg)
         sent_by_id = recieved_data.get('sent_by')
         send_to_id = recieved_data.get('send_to')
         thread_id = recieved_data.get('thread_id')
@@ -60,7 +62,10 @@ class ChatConsumer(AsyncConsumer):
 
 
         other_user_in_chat_room = f'user_chatroom_{send_to_id}'   
+        print("other user in chat room:", other_user_in_chat_room)
         self_user = self.scope['user'] 
+
+        print("self user is: ", self_user.id)
 
         response={
              
@@ -81,6 +86,8 @@ class ChatConsumer(AsyncConsumer):
             }
         )
         
+        print("self user is: ",self.chat_room)
+        print("other user is: ",other_user_in_chat_room)
         await self.channel_layer.group_send(
             self.chat_room,
             {
@@ -98,6 +105,7 @@ class ChatConsumer(AsyncConsumer):
 
     async def chat_message(self, event):
         print('chat_message', event)
+        print('chat_message', event['text'])
         await self.send({
             'type': 'websocket.send',
             'text': event['text'],

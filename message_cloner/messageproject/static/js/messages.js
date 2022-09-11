@@ -1,4 +1,5 @@
 let locations1 = window.location
+console.log(locations1)
 let wsStart = 'ws://'
 let input_message = $('#input-message')
 let msg_body = $('.msg_card_body')
@@ -20,6 +21,7 @@ socket.onopen = async function (e) {
    send_mesg_form.on('submit', function (e) {
       e.preventDefault()
       let msg = input_message.val()
+      console.log(input_message.val(), "fjnfjk   ")
       let sent_to = get_other_active_user_id();
       let thread_id = get_active_thread_id()
 
@@ -33,9 +35,11 @@ socket.onopen = async function (e) {
          'send_to': sent_to,
          'thread_id': thread_id,
       }
-      data = JSON.stringify(data)
+      console.log("type of data ", typeof (data))  // object
+      data = JSON.stringify(data) //convert to string
       socket.send(data)
       $(this)[0].reset()
+      console.log($(this)[0].reset())
    })
 }
 
@@ -107,11 +111,17 @@ function messageNew(message, sent_by_id, thread_id, date) {
 
    }
    let msg_body = $('.messages-wrapper[chat-id="' + chat_id + '"] .msg_card_body')
+   console.log("message body is",)
    msg_body.append($(mes_ele))
    msg_body.animate({
       scrollTop: $(document).height()
    }, 100);
    input_message.val(null);
+
+
+   var element = document.getElementById('helloworld');
+
+   element.scrollTop = element.scrollHeight;
 }
 
 $('.contact-li').on('click', function () {
@@ -128,7 +138,10 @@ $('.contact-li').on('click', function () {
 
 function get_other_active_user_id() {
    let other_user_id = $('.messages-wrapper.is_active').attr('other-user-id')
+
+   console.log(other_user_id, "before trim")
    other_user_id = $.trim(other_user_id)
+   console.log("after trim", other_user_id)
    return other_user_id
 }
 
@@ -137,7 +150,7 @@ function get_other_active_user_id() {
 
 function get_active_thread_id() {
    let chat_id = $('.messages-wrapper.is_active').attr('chat-id')
+   console.log("thread id is :", chat_id)
    let thread_id = chat_id.replace('chat_', '')
    return thread_id
 }
-
